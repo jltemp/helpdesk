@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- project.task inherit form view -->
+    <!-- Vista de tareas heredada de project
+         a la que se añade un boton  para crear nuevos tickets
+         a la que se añade una pestaña para ver los tickets asociados
+         a la que se añade un smart-buttoon donde se indica el 
+            numero de tickets asociados, y
+            que al hacer click permite añadir otro ticket -->
+    <record id="task_ticket_view_form2" model="ir.ui.view">
+        <field name="name">project.task.inherit.view.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <!-- Boton para añadir un ticket situado en cabecera del formulario-->
+            <xpath expr="//button[@name='action_assign_to_me']" position="after">
+                <button string="Nuevo ticket" name="action_view_tickets" type="object" />
+                <button string="Nuevo ticket action" name="helpdesk_project.project_alta_ticket_action" type="action" />
+            </xpath>
+            <xpath expr="//button[@name='action_subtask']" position="before">
+                <!-- Add your fields here -->
+                <!-- <button class="oe_stat_button" string="Nuevo tck" name="action_view_tickets" -->
+                <button class="oe_stat_button" string="New" name="action_view_tickets"
+                    icon="fa-check" type="object" >
+                        <div class="o_stat_info">
+                                <field name="tickets_count" widget="statinfo" class="o_stat_value"/>
+                                <span class="o_stat_text"></span>
+                        </div>
+                </button>
+            </xpath>
+            <notebook position="inside">
+                <page string="Tickets" name="task_tickets">
+                    <group>
+                        <field name="ticket_ids"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- helpdesk.ticket action window -->
+    <record id="project_alta_ticket_action" model="ir.actions.act_window">
+        <field name="name">ALTA_TICKETS_DESDE_TAREAS</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('task_id','=',active_id)]</field>
+        <field name="context">{'search_default_task_id':active_id,'default_task_id':active_id}</field>
+        <!-- <field name="res_id">2</field> -->
+        <field name="target">new</field>
+    </record>
+
+    <!-- Action para llamar a la vista para altas de tickets -->
+    <!-- model.name action window -->
+    <record id="task_action_ticket_new" model="ir.actions.act_window">
+        <field name="name">TICKET</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('task_id','=',active_id)]</field>
+        <!-- <field name="context">{'search_default_task_id':active_id,'default_task_id':active_id}</field> -->
+    </record>
+
+
+    
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- helpdesk ticket inherit form view -->
+    <record id="view_id" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.inherit.view.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <notebook position="inside">
+                <page string="Proyecto" name="project">
+                    <group>
+                        <field name="project_id"/>
+                        <field name="task_id"/>
+                    </group>
+                </page>
+            </notebook>
+            
+        </field>
+    </record>
+   
+</odoo>
